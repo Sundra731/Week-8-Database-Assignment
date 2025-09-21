@@ -147,3 +147,16 @@ GRANT SELECT, INSERT, UPDATE ON studentrecordsdb.Grades TO 'instructor_user'@'lo
 GRANT SELECT ON studentrecordsdb.Students TO 'student_user'@'localhost';
 FLUSH PRIVILEGES;
 
+-- List students with their courses and grades
+SELECT s.first_name, s.last_name, c.course_name, g.grade
+FROM Enrollments e
+JOIN Students s ON e.student_id = s.student_id
+JOIN Courses c ON e.course_id = c.course_id
+LEFT JOIN Grades g ON e.enrollment_id = g.enrollment_id;
+
+-- List courses and assigned instructors
+SELECT c.course_name, i.first_name, i.last_name, cs.semester, cs.year
+FROM Course_Schedule cs
+JOIN Courses c ON cs.course_id = c.course_id
+JOIN Instructors i ON cs.instructor_id = i.instructor_id;
+
